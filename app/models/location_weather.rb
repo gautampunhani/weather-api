@@ -1,0 +1,3 @@
+class LocationWeather < ApplicationRecord
+
+end

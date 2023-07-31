@@ -1,0 +1,2 @@
+module LocationWeatherHelper
+end

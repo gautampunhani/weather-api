@@ -1,4 +1,13 @@
+# Assumptions
+
+* The current weather of a location is stored in a database instead of being fetched from remote sevices
+* The temperatures are assummed to be in only 1 unit, degree Celsius
+* High & low temperature are marked/updated daily and are given for a day range
+* Extended forecast means air quality, humidity, air pressure, wind speed.
+
 # README
+
+
 
 This README would normally document whatever steps are necessary to get the
 application up and running.

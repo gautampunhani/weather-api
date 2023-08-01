@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 describe LocationWeatherController do
-  before do
-    # Do nothing
-  end
-
-  after do
-    # Do nothing
-  end
-
   describe 'without cache' do
     it "should return weather of the given city" do
       location_weather = LocationWeather.new({zipcode: '132710', city: 'some_city', 'current_temperature': 45})
@@ -21,6 +13,7 @@ describe LocationWeatherController do
 
       received_response = JSON.parse(response.body, symoblize_names: true)
       assert_equal location_weather.current_temperature, received_response["current_temperature"]
+      assert_equal location_weather.current_temperature, received_response["current_temperature"]
     end
 
     it "should return error if zipcode doesn't exist" do
@@ -32,10 +25,18 @@ describe LocationWeatherController do
       received_response = JSON.parse(response.body, symoblize_names: true)
       assert_response :not_found
     end
-
   end
 
   describe 'with cache' do
+
+    let(:memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
+    let(:cache) { Rails.cache }
+
+    before do
+      allow(Rails).to receive(:cache).and_return(memory_store)
+      Rails.cache.clear
+    end
+
     it "should return cache flag as false if location weather not found in cache" do
       location_weather = LocationWeather.new({zipcode: '132710', city: 'some_city', 'current_temperature': 45})
       location_weather.save!
@@ -47,7 +48,7 @@ describe LocationWeatherController do
       assert_equal false, received_response["cached"]
     end
 
-    xit "should fetch the object from cache on subsequent requests" do
+    it "should fetch the object from cache on subsequent requests" do
       location_weather = LocationWeather.new({zipcode: '132710', city: 'some_city', 'current_temperature': 45})
       location_weather.save!
 
@@ -66,7 +67,7 @@ describe LocationWeatherController do
       assert_equal true, received_response["cached"]
     end
 
-    xit "should fetch object from database if record is invalidated" do
+    it "should fetch object from database if record is invalidated" do
       location_weather = LocationWeather.new({zipcode: '132710', city: 'some_city', 'current_temperature': 45})
       location_weather.save!
 
@@ -93,6 +94,10 @@ describe LocationWeatherController do
 
       received_response = JSON.parse(response.body, symoblize_names: true)
       assert_equal false, received_response["cached"]
+    end
+
+    xit "should fetch from database after 30 minutes instead of cache" do
+
     end
   end
 end

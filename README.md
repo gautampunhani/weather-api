@@ -1,5 +1,11 @@
+# Objective
+
+* The API provides weather information given a zipcode
+* It caches the response for 30 minutes and invalidates if there is a recent weather info for that zipcode
+
 # Assumptions
 
+* The API is exposed publicly, no authentication has been implemented
 * The current weather of a location is stored in a database instead of being fetched from remote sevices
 * The temperatures are assummed to be in only 1 unit, degree Celsius
 * High & low temperature are marked/updated daily and are given for a day range
@@ -12,7 +18,16 @@ We are using Rubocop for lint check.
 
 `bundle exec rubocop`
 
-# README
+# SAST Scanner
+We are using Brakeman for SAST scanning.
+
+`brakeman`
+
+# Dependency check for vulnerability
+
+`bundle-audit check --update`
+
+
 
 
 

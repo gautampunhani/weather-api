@@ -12,7 +12,7 @@ class LocationWeatherController < ApplicationController
 
     location_weather = Rails.cache.fetch(LocationWeather.caching_key(zipcode), expires_in: CACHE_EXPIRY.minutes) do
       found_from_cache = false
-      LocationWeather.find_by(zipcode: zipcode)
+      LocationWeather.find_by_zipcode(zipcode)
     end
 
     if location_weather.nil?

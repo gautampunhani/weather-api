@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+
 describe LocationWeatherController do
   before(:each) do
     @location_weather = create(:location_weather)
@@ -74,7 +75,7 @@ describe LocationWeatherController do
       assert_equal false, received_response['cached']
     end
 
-    it 'should fetch the object from cache on subsequent requests' do
+    it 'should fetch the object from cache on subsequent requests within 30 minutes' do
       get :index, params: { "city": 'some_city', "zipcode": '13271' }
 
       assert_response :success
@@ -91,31 +92,38 @@ describe LocationWeatherController do
     end
 
     it 'should fetch object from database if record is invalidated' do
-      get :index, params: { "city": 'some_city', "zipcode": '13271' }
-
-      assert_response :success
-
-      received_response = JSON.parse(response.body, symoblize_names: true)
-      assert_equal false, received_response['cached']
-
-      get :index, params: { "city": 'some_city', "zipcode": '13271' }
-
-      assert_response :success
-
-      received_response = JSON.parse(response.body, symoblize_names: true)
-      assert_equal true, received_response['cached']
-
+      setup_cached_weather_info
       @location_weather.current_temperature = 47.0
       @location_weather.save!
+
       get :index, params: { "city": 'some_city', "zipcode": '13271' }
 
       assert_response :success
-
       received_response = JSON.parse(response.body, symoblize_names: true)
       assert_equal false, received_response['cached']
     end
 
-    xit 'should fetch from database after 30 minutes instead of cache' do
+    it 'should fetch from database after 30 minutes instead of cache' do
+      setup_cached_weather_info
+
+      assert_response :success
+
+      travel 35.minutes do
+        get :index, params: { "city": 'some_city', "zipcode": '13271' }
+
+        assert_response :success
+        received_response = JSON.parse(response.body, symoblize_names: true)
+        assert_equal false, received_response['cached']
+      end
     end
   end
+end
+
+def setup_cached_weather_info
+  get :index, params: { "city": 'some_city', "zipcode": '13271' }
+  assert_response :success
+  get :index, params: { "city": 'some_city', "zipcode": '13271' }
+  assert_response :success
+  received_response = JSON.parse(response.body, symoblize_names: true)
+  assert_equal true, received_response['cached']
 end

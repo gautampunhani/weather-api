@@ -2,13 +2,15 @@
 
 class LocationWeatherController < ApplicationController
   ZIPCODE_VALIDATION_PATTERN = /^\d{5}$/
+  CACHE_EXPIRY = 30
+
   before_action :validate_params
 
   def index
     zipcode = params[:zipcode]
     found_from_cache = true
 
-    location_weather = Rails.cache.fetch(LocationWeather.caching_key(zipcode)) do
+    location_weather = Rails.cache.fetch(LocationWeather.caching_key(zipcode), expires_in: CACHE_EXPIRY.minutes) do
       found_from_cache = false
       LocationWeather.find_by(zipcode: zipcode)
     end

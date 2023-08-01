@@ -41,6 +41,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.include FactoryBot::Syntax::Methods
+  config.include ActiveSupport::Testing::TimeHelpers
   # config.include ControllerMacros, type: :controller
 
   # RSpec Rails can automatically mix in different behaviours to your tests

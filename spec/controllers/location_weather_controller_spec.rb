@@ -10,7 +10,7 @@ describe LocationWeatherController do
   describe 'validate params' do
     it 'should return error json with bad request if zipcode is not passed' do
       message = 'Zipcode cannot be blank'
-      get :index, params: { "city": 'some_city', "zipcode": '' }
+      get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '' }
       received_response = JSON.parse(response.body, symoblize_names: true)
       # require 'pry'; binding.pry
 
@@ -20,7 +20,7 @@ describe LocationWeatherController do
 
     it 'should return error json with bad request if zipcode is not not valid' do
       message = 'Invalid zipcode format'
-      get :index, params: { "city": 'some_city', "zipcode": '565656' }
+      get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '565656' }
       received_response = JSON.parse(response.body, symoblize_names: true)
 
       assert_response :bad_request
@@ -32,7 +32,7 @@ describe LocationWeatherController do
     it 'should return weather of the given city' do
       create(:location_weather, zipcode: '13281', current_temperature: 53)
 
-      get :index, params: { "city": 'some_city', "zipcode": '13271' }
+      get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '13271' }
 
       assert_response :success
 
@@ -49,7 +49,7 @@ describe LocationWeatherController do
 
     it "should return error if zipcode doesn't exist" do
       message = 'Zip code 14271 not found'
-      get :index, params: { "city": 'some_city', "zipcode": '14271' }
+      get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '14271' }
       received_response = JSON.parse(response.body, symoblize_names: true)
 
       assert_response :not_found
@@ -67,7 +67,7 @@ describe LocationWeatherController do
     end
 
     it 'should return cache flag as false if location weather not found in cache' do
-      get :index, params: { "city": 'some_city', "zipcode": '13271' }
+      get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '13271' }
 
       assert_response :success
 
@@ -76,14 +76,14 @@ describe LocationWeatherController do
     end
 
     it 'should fetch the object from cache on subsequent requests within 30 minutes' do
-      get :index, params: { "city": 'some_city', "zipcode": '13271' }
+      get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '13271' }
 
       assert_response :success
 
       received_response = JSON.parse(response.body, symoblize_names: true)
       assert_equal false, received_response['cached']
 
-      get :index, params: { "city": 'some_city', "zipcode": '13271' }
+      get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '13271' }
 
       assert_response :success
 
@@ -96,7 +96,7 @@ describe LocationWeatherController do
       @location_weather.current_temperature = 47.0
       @location_weather.save!
 
-      get :index, params: { "city": 'some_city', "zipcode": '13271' }
+      get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '13271' }
 
       assert_response :success
       received_response = JSON.parse(response.body, symoblize_names: true)
@@ -109,7 +109,7 @@ describe LocationWeatherController do
       assert_response :success
 
       travel 35.minutes do
-        get :index, params: { "city": 'some_city', "zipcode": '13271' }
+        get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '13271' }
 
         assert_response :success
         received_response = JSON.parse(response.body, symoblize_names: true)
@@ -120,9 +120,9 @@ describe LocationWeatherController do
 end
 
 def setup_cached_weather_info
-  get :index, params: { "city": 'some_city', "zipcode": '13271' }
+  get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '13271' }
   assert_response :success
-  get :index, params: { "city": 'some_city', "zipcode": '13271' }
+  get :find_by_zipcode, params: { "city": 'some_city', "zipcode": '13271' }
   assert_response :success
   received_response = JSON.parse(response.body, symoblize_names: true)
   assert_equal true, received_response['cached']

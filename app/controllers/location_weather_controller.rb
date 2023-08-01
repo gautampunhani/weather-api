@@ -6,7 +6,7 @@ class LocationWeatherController < ApplicationController
 
   before_action :validate_params
 
-  def index
+  def find_by_zipcode
     zipcode = params[:zipcode]
     found_from_cache = true
 

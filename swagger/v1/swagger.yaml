@@ -1,0 +1,126 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/forecast/daily":
+    get:
+      summary: fetch latest weather report for a zipcode
+      tags:
+      - WeatherReport
+      parameters:
+      - name: zipcode
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: city
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Weather report found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  current:
+                    type: object
+                    properties:
+                      zipcode:
+                        type: string
+                      city:
+                        type: string
+                      temperature:
+                        type: decimal
+                      forecast_for:
+                        type: string
+                      humidity:
+                        type: integer
+                      wind_speed:
+                        type: integer
+                  day_summary:
+                    type: object
+                    properties:
+                      zipcode:
+                        type: string
+                      humidity:
+                        type: decimal
+                      wind_speed:
+                        type: decimal
+                      date:
+                        type: string
+                      high_temperature:
+                        type: decimal
+                      low_temperature:
+                        type: decimal
+                  cached:
+                    type: boolean
+        '400':
+          description: Zip code should not be blank
+        '404':
+          description: Weather not found for today for the zipcode
+  "/forecast/extended":
+    get:
+      summary: fetch latest weather report for a zipcode
+      tags:
+      - WeatherReport
+      parameters:
+      - name: zipcode
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: city
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: country
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Weather report found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  daily_extended_forecast:
+                    type: array
+                    properties:
+                      zipcode:
+                        type: string
+                      humidity:
+                        type: decimal
+                      wind_speed:
+                        type: decimal
+                      date:
+                        type: string
+                      high_temperature:
+                        type: decimal
+                      low_temperature:
+                        type: decimal
+                  cached:
+                    type: boolean
+        '400':
+          description: Zip code should not be blank
+        '404':
+          description: Weather not found for today for the zipcode
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000

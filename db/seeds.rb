@@ -9,25 +9,91 @@
 
 LocationWeather.destroy_all
 LocationWeather.create([
-  {zipcode: "13271",
-   city: "some_city",
-   current_temperature:37.8,
-   high_temperature:43.0,
-   low_temperature:21.0,
-   wind_speed:12.0,
-   air_quality:34,
-   air_pressure:32.0,
-   humidity:21},
+                         { zipcode: "13271",
+                           city: "some_city",
+                           temperature: 37.8,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now
+                         },
+                         {
+                           zipcode: "13271",
+                           city: "some_city",
+                           temperature: 38.8,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now+2.hours
+                         },
+                         {
+                           zipcode: "13271",
+                           city: "some_city",
+                           temperature: 39.8,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now+4.hours
+                         },
+                         { zipcode: "15471",
+                           city: "some_city",
+                           temperature: 37.8,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now+2.days
+                         }
+                       ])
 
-  {zipcode: "15471",
-   city: "some_city",
-   current_temperature:37.8,
-   high_temperature:43.0,
-   low_temperature:21.0,
-   wind_speed:12.0,
-   air_quality:34,
-   air_pressure:32.0,
-   humidity:21}
-])
+#Create extended forecast for more no of days for 1 zipcode
+LocationWeather.create([
+                         { zipcode: "14141",
+                           city: "some_city",
+                           temperature: 37.8,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now
+                         },
+                         {
+                           zipcode: "14141",
+                           city: "some_city",
+                           temperature: 35.8,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now+2.hours
+                         },
+                         {
+                           zipcode: "14141",
+                           city: "some_city",
+                           temperature: 39.8,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now+1.day
+                         },
+                         { zipcode: "14141",
+                           city: "some_city",
+                           temperature: 37.8,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now+2.days
+                         },
+                         { zipcode: "14141",
+                           city: "some_city",
+                           temperature: 37.8,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now+2.days+4.hours
+                         },
+                         { zipcode: "14141",
+                           city: "some_city",
+                           temperature: 25.0,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now+3.days
+                         },
+                         { zipcode: "14141",
+                           city: "some_city",
+                           temperature: 53.0,
+                           humidity: 23,
+                           wind_speed: 45,
+                           forecast_for: Time.now+23.days
+                         }
+                       ])
 
-p "Created #{LocationWeather.count} weather reports"
+p "Created #{LocationWeather.count} weather captured events"

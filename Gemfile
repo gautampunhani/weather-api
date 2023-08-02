@@ -28,6 +28,8 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
+gem 'rails-observers'
+gem 'simplecov', require: false, group: :test
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -36,12 +38,17 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'pry'
   gem 'rspec-rails'
+
+  # rswag dependencies
+  gem 'multi_json'
+  gem 'rswag'
+  gem 'uuidtools'
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem 'brakeman'
+  gem 'bundler-audit'
   gem 'rubocop', require: false
-  gem "brakeman"
   gem 'web-console'
-  gem "bundler-audit"
 end

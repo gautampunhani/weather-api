@@ -22,7 +22,7 @@
 !/tmp/pids/
 !/tmp/pids/.keep
 
-
+/public/coverage
 /public/assets
 
 # Ignore master key for decrypting credentials and more.

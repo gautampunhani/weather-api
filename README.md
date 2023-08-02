@@ -1,7 +1,8 @@
-### Objective
+### Specifications
 
-* The API provides weather information given a zipcode
-* It caches the response for 30 minutes and invalidates if there is a recent weather info for that zipcode
+* The API provides current weather information along with a day report given a zipcode
+* There is another API which gives extended(14 days) weather report
+* It caches the response for 30 minutes and invalidates if there is a recent weather info for that zipcode and it affects the cache result
 
 ### Assumptions
 

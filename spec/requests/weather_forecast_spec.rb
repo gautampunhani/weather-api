@@ -4,7 +4,7 @@ require 'rails_helper'
 require 'swagger_helper'
 
 RSpec.describe 'WeatherForecast', type: :request do
-  path '/forecast/daily' do
+  path '/forecast/current' do
     get 'fetch latest weather report for a zipcode' do
       tags 'WeatherReport'
       produces 'application/json'
@@ -20,7 +20,7 @@ RSpec.describe 'WeatherForecast', type: :request do
                    properties: {
                      zipcode: { type: :string },
                      city: { type: :string },
-                     temperature: { type: :decimal },
+                     temperature: { type: :number },
                      forecast_for: { type: :string },
                      humidity: { type: :integer },
                      wind_speed: { type: :integer }
@@ -30,11 +30,11 @@ RSpec.describe 'WeatherForecast', type: :request do
                    type: :object,
                    properties: {
                      zipcode: { type: :string },
-                     humidity: { type: :decimal },
-                     wind_speed: { type: :decimal },
+                     humidity: { type: :number },
+                     wind_speed: { type: :number },
                      date: { type: :string },
-                     high_temperature: { type: :decimal },
-                     low_temperature: { type: :decimal }
+                     high_temperature: { type: :number },
+                     low_temperature: { type: :number }
                    }
                  },
                  cached: { type: :boolean }
@@ -74,13 +74,18 @@ RSpec.describe 'WeatherForecast', type: :request do
                properties: {
                  daily_extended_forecast: {
                    type: :array,
-                   properties: {
-                     zipcode: { type: :string },
-                     humidity: { type: :decimal },
-                     wind_speed: { type: :decimal },
-                     date: { type: :string },
-                     high_temperature: { type: :decimal },
-                     low_temperature: { type: :decimal }
+                   collectionFormat: :multi,
+                   required: true,
+                   items: {
+                     type: :object,
+                     properties: {
+                       zipcode: { type: :string },
+                       humidity: { type: :number },
+                       wind_speed: { type: :number },
+                       date: { type: :string },
+                       high_temperature: { type: :number },
+                       low_temperature: { type: :number }
+                     }
                    }
                  },
                  cached: { type: :boolean }

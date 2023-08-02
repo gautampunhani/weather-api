@@ -19,7 +19,7 @@
 * For caching we are using memory store. It will wipe out on restart and also limited cache entries will be stored on memory and LRU
 * We have relied on Rails low level caching as it will give us more control on cache operations
 * For extended forecast, caching has been kept simple to store the same data as requested from the service layer
-* Assumming 1 to 1 relationship with Address and Zipcode, we did not found much advantage of storing as separate table as of now, we are assuming address will be stored as redundant dataset
+* We did not found much advantage of storing address as separate table as of now, we are assuming address will be stored as redundant dataset in location_weather
 * The scenario of "blank results found" has also been cached, assuming caching is to prevent less load on downstream system 
 
 ### Linting
@@ -42,7 +42,7 @@ We are using Brakeman for SAST scanning.
 2. ReCreate schema : `rake db:drop db:create db:migrate`
 3. Run db seed script : `rails db:seed`
 4. Enable caching if it is disabled using : `rails dev:cache`
-5. Hit http://127.0.0.1:3000/forecast/daily?zipcode=13271
+5. Hit http://127.0.0.1:3000/forecast/current?zipcode=13271
 6. Check for database setup done in seeds.rb for using the zipcodes that have data
 
 ### Unit & Integration test

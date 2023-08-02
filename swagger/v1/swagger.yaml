@@ -4,7 +4,7 @@ info:
   title: API V1
   version: v1
 paths:
-  "/forecast/daily":
+  "/forecast/current":
     get:
       summary: fetch latest weather report for a zipcode
       tags:
@@ -41,7 +41,7 @@ paths:
                       city:
                         type: string
                       temperature:
-                        type: decimal
+                        type: number
                       forecast_for:
                         type: string
                       humidity:
@@ -54,15 +54,15 @@ paths:
                       zipcode:
                         type: string
                       humidity:
-                        type: decimal
+                        type: number
                       wind_speed:
-                        type: decimal
+                        type: number
                       date:
                         type: string
                       high_temperature:
-                        type: decimal
+                        type: number
                       low_temperature:
-                        type: decimal
+                        type: number
                   cached:
                     type: boolean
         '400':
@@ -100,19 +100,23 @@ paths:
                 properties:
                   daily_extended_forecast:
                     type: array
-                    properties:
-                      zipcode:
-                        type: string
-                      humidity:
-                        type: decimal
-                      wind_speed:
-                        type: decimal
-                      date:
-                        type: string
-                      high_temperature:
-                        type: decimal
-                      low_temperature:
-                        type: decimal
+                    collectionFormat: multi
+                    required: true
+                    items:
+                      type: object
+                      properties:
+                        zipcode:
+                          type: string
+                        humidity:
+                          type: number
+                        wind_speed:
+                          type: number
+                        date:
+                          type: string
+                        high_temperature:
+                          type: number
+                        low_temperature:
+                          type: number
                   cached:
                     type: boolean
         '400':

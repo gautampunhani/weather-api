@@ -42,5 +42,7 @@ class WeatherForecastController < ApplicationController
     elsif !valid_zipcode?(zipcode)
       render json: { error: 'Invalid zipcode format' }, status: 400
     end
+    params.permit(:zipcode, :country, :city)
+
   end
 end

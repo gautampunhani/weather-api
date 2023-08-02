@@ -42,7 +42,7 @@ We are using Brakeman for SAST scanning.
 2. ReCreate schema : `rake db:drop db:create db:migrate`
 2. Run db seed script : `rails db:seed`
 2. Enable caching if it is disabled using : `rails dev:cache`
-3. Hit http://127.0.0.1:3000/location_weather?zipcode=13271
+3. Hit http://127.0.0.1:3000/forecast/daily?zipcode=13271
 
 ### Unit & Integration test
 

@@ -40,9 +40,10 @@ We are using Brakeman for SAST scanning.
 
 1. Make sure you have ruby > 3.0 and rails > 7.0.1
 2. ReCreate schema : `rake db:drop db:create db:migrate`
-2. Run db seed script : `rails db:seed`
-2. Enable caching if it is disabled using : `rails dev:cache`
-3. Hit http://127.0.0.1:3000/forecast/daily?zipcode=13271
+3. Run db seed script : `rails db:seed`
+4. Enable caching if it is disabled using : `rails dev:cache`
+5. Hit http://127.0.0.1:3000/forecast/daily?zipcode=13271
+6. Check for database setup done in seeds.rb for using the zipcodes that have data
 
 ### Unit & Integration test
 
@@ -51,6 +52,9 @@ We are using Brakeman for SAST scanning.
 ### Swagger API Generation
 
 1. Run `rake rswag:specs:swaggerize`
+2. Run `rails s` and go to `http://127.0.0.1:3000` for reaching to swagger documentation and playing around with API's
+3. Verify with 13271, 14141 zipcodes
+4. ![img.png](homepage.png)
 
 ### Design
 * Service Layer is responsible for:

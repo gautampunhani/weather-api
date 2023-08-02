@@ -22,8 +22,8 @@ class LocationWeather < ApplicationRecord
   end
 
   scope :weather_in_date_range, lambda { |params|
-    where('forecast_for >= ?', params[:start_date])
-      .where('forecast_for <= ?', params[:end_date])
+    where('forecast_for >= ?', params[:start_date].utc)
+      .where('forecast_for <= ?', params[:end_date].utc)
   }
 
   scope :aggregate_weather_stats, lambda {

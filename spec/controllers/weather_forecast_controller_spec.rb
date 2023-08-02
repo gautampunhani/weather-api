@@ -13,7 +13,6 @@ describe WeatherForecastController do
         message = 'Zipcode cannot be blank'
         get :extended_forecast, params: { "city": 'some_city', "zipcode": '' }
         received_response = JSON.parse(response.body, symoblize_names: true)
-        # require 'pry'; binding.pry
 
         assert_response :bad_request
         expect(message).to eql(received_response['error'])
